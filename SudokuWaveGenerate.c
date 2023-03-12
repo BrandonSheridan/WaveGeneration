@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 
 int solvedGrid[9][9]; //[rows][collumns]
-int seed = 0;
+time_t seed;
 int * numArr;
 FILE * out;
 
@@ -15,11 +16,11 @@ int * checkInvalidNums(int xPos, int yPos);
 int cmpNum(int * numArr, int num);
 
 int main(int argc, char * argv[]) {
-	srand(0);
-	out = fopen("output.txt", "w");
+	seed = time(NULL); 
+	srand(seed);
+	out = fopen(argv[1], "w");
 	initGrid();
 	generateGrid();
-	printf("SEGFAULT WHERE\n");
 	// printGrid();
 
 	return 1;
@@ -71,18 +72,16 @@ void recurseGen(int xPos, int yPos){
 	// printf("\n");
 
 	solvedGrid[xPos][yPos] = randNum;
-	printGrid();
 
 
 	if (xPos == 0 && yPos == 8){
+		printGrid();
 		free(numArr);
 		for (int i = 0; i < 9; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				printf("outputing\n");
 				fprintf(out, "%d", solvedGrid[i][j]);
 			}
 		}
-		printf("output complete\n");
 		fclose(out);
 		exit(1);
 	}
@@ -102,32 +101,27 @@ int * checkInvalidNums(int xPos, int yPos) {
 	for (int i = 0; i < 9; ++i){
 		if (solvedGrid[i][yPos] != 0){
 			numArr[solvedGrid[i][yPos] - 1] = 1;
-			printf("%d found at x: %d y: %d\n", solvedGrid[i][yPos], i, yPos);
+			// printf("%d found at x: %d y: %d\n", solvedGrid[i][yPos], i, yPos);
 			// printf("invalid %d", solvedGrid[i][yPos]);
 		}
 	}
 
 	for (int i = 0; i < 9; ++i){
 		if (solvedGrid[xPos][i] != 0){
-			printf("%d found at x: %d y: %d\n", solvedGrid[xPos][i], xPos, i);
+			// printf("%d found at x: %d y: %d\n", solvedGrid[xPos][i], xPos, i);
 			numArr[solvedGrid[xPos][i] - 1] = 1;
 		}
 	}
 
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			printf("checking x: %d y: %d\n",i + (xPos / 3) * 3, j + (yPos / 3) * 3);
+			// printf("checking x: %d y: %d\n",i + (xPos / 3) * 3, j + (yPos / 3) * 3);
 			if (solvedGrid[i + xPos - (xPos % 3)][j + yPos - (yPos % 3)] != 0){
-				printf("%d found at x: %d y: %d\n", solvedGrid[i + xPos - (xPos % 3)][j + yPos - (yPos % 3)], i + (xPos / 3) * 3, j + (yPos / 3) * 3);
+				// printf("%d found at x: %d y: %d\n", solvedGrid[i + xPos - (xPos % 3)][j + yPos - (yPos % 3)], i + (xPos / 3) * 3, j + (yPos / 3) * 3);
 				numArr[solvedGrid[i + xPos - (xPos % 3)][j + yPos - (yPos % 3)] - 1] = 1;
 			}
 		}
 	}
-
-	for (int i = 0; i < 9; ++i){
-		printf("%d ", numArr[i]);
-	} 
-	printf("\n");
 
 	for (int i = 0; i < 9; ++i){
 		if(numArr[i] == 1){}
@@ -137,9 +131,10 @@ int * checkInvalidNums(int xPos, int yPos) {
 	} 
 
 	printf("retrying\n");
-	printGrid();
+	// printGrid();
 	initGrid();
-	++seed;
+	printf("%d", CLOCKS_PER_SEC);
+	seed *= CLOCKS_PER_SEC;
 	generateGrid();
 }
 
