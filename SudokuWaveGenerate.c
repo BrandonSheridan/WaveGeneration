@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include "puzzleGen.h"
 
 int solvedGrid[9][9]; //[rows][collumns]
 time_t seed;
