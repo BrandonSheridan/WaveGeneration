@@ -133,8 +133,8 @@ int * checkInvalidNums(int xPos, int yPos) {
 	printf("retrying\n");
 	// printGrid();
 	initGrid();
-	printf("%d", CLOCKS_PER_SEC);
-	seed *= CLOCKS_PER_SEC;
+	// printf("%ld", CLOCKS_PER_SEC);
+	seed *= seed + 1;
 	generateGrid();
 }
 
