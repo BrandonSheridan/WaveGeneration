@@ -15,3 +15,6 @@ create a GUI to display a sudoku board and normal functionality of a sudoku puzz
 clicking on a square allows you to input a number from 1-9
 allow numbers to be changed
 allow guess numbers to be inputed on a square as a small number in a corner
+
+
+decided to learn rust halfway through this project.  might recode the wave generation file into rust at some point.

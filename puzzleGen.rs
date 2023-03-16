@@ -5,3 +5,5 @@ fn main() {
     println!("{}", rows[1]);
 
 }
+
+pub fn def_grids() -> 
